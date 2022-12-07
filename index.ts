@@ -8,6 +8,6 @@ const [sessionParser] = configSessions();
 const [server, wss] = configSockets(app, sessionParser);
 configRoutes(app);
 
-server.listen(process.env.port || 7777, () => {
+server.listen(7777, () => {
   console.log(`*~~% www.coinsponge.com %~~*`);
 });
