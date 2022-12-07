@@ -11,13 +11,13 @@ export interface ExtWebSocket extends WebSocket {
 
 const heartbeat = (ws: ExtWebSocket) => {
   ws.isAlive = true;
-}
+};
 
 export const wss = new WebSocketServer({ noServer: true });
 
 export default (app: Application, sessionParser: any): [Server, any] => {
   const server = http.createServer(app);
-  
+
   server.on('upgrade', function (request: any, socket: any, head: any) {
     sessionParser(request, {}, () => {
       if (!request.sessionID) {
@@ -26,7 +26,7 @@ export default (app: Application, sessionParser: any): [Server, any] => {
         socket.destroy();
         return;
       }
-  
+
       wss.handleUpgrade(request, socket, head, function (ws) {
         wss.emit('connection', ws, request);
       });
@@ -39,18 +39,18 @@ export default (app: Application, sessionParser: any): [Server, any] => {
   wss.on('connection', async function connection(client: ExtWebSocket, request: any) {
     const { sessionID } = request;
     console.log('user connected', sessionID, Date.now());
-  
+
     // CLIENT ALIVE-CHECK
     client.isAlive = true;
     client.sessionID = request.sessionID;
     client.socketID = uuidv4();
     client.on('pong', () => heartbeat(client));
-    
+
     // message all clients in the ui
     client.on('message', async function message(d, isBinary) {
       if (client.readyState === WebSocket.OPEN) {
         const clientSessID = client.sessionID as string;
-        console.log({clientSessID});
+        console.log({ clientSessID });
       }
       // wss.clients.forEach(function each(client: ExtWebSocket) {});
     });
@@ -61,7 +61,7 @@ export default (app: Application, sessionParser: any): [Server, any] => {
       if (client.isAlive === false) {
         console.log('user disconnected');
         return client.terminate();
-      };
+      }
       client.isAlive = false;
       client.ping();
     });
@@ -74,6 +74,6 @@ export default (app: Application, sessionParser: any): [Server, any] => {
   wss.on('open', function connection(client) {
     client.send('open');
   });
-  
+
   return [server, wss];
-}
+};
