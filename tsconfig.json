@@ -1,0 +1,15 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+
+  "compilerOptions": {
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "outDir": "./build",
+    "baseUrl": "./",
+    "paths": {
+      "@config/*": ["config/*"],
+    }
+  },
+
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
