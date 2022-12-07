@@ -2,9 +2,20 @@ import session from 'express-session';
 import connectRedis from 'connect-redis';
 import Redis from 'ioredis';
 
+const getRedisHost = () => {
+  switch (process.env.NODE_ENV) {
+    case 'production':
+      return process.env.REDIS_HOST_PROD;
+    default:
+      return '127.0.0.1';
+  }
+};
+
 // create express session using redis
 const redisStore = connectRedis(session);
-const redisClient = new Redis() as any;
+const redisClient = new Redis({
+  host: getRedisHost(),
+}) as any;
 
 const secret = 'Si10!ZtwS5WR*'; // Change and move to cloud
 const path = '/';
@@ -25,7 +36,7 @@ export default () => {
     client: redisClient,
     ttl: 1000 * 60 * 60, // 1hr TTL
   });
-  
+
   const sessionParser = session({
     secret,
     cookie,
@@ -35,6 +46,6 @@ export default () => {
     saveUninitialized,
     unset,
   });
-  
+
   return [sessionParser];
-}
+};

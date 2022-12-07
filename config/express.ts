@@ -5,7 +5,7 @@ import cors from 'cors';
 export interface RequestI extends Request {
   sessionID: string;
 }
-export interface ResponseI extends Response {};
+export type ResponseI = Response;
 
 export default (): [Application] => {
   const app = express();
@@ -14,4 +14,4 @@ export default (): [Application] => {
   app.use(cors({ credentials: true, origin: true }));
 
   return [app];
-}
+};
