@@ -7,9 +7,9 @@
     "outDir": "./build",
     "baseUrl": "./",
     "paths": {
-      "@config/*": ["config/*"],
+      "@config/*": ["config/*"]
     }
   },
 
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "build"]
 }
