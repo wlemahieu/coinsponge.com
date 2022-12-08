@@ -5,10 +5,10 @@ export default (app: Application): void => {
   const NODE_ENV = process.env.NODE_ENV as string;
 
   if (['production', 'staging'].includes(NODE_ENV)) {
-    const sendFilePath = path.join(__dirname, 'index.html');
+    const sendFilePath = path.join(__dirname, 'client/dist', 'index.html');
 
     app.use(
-      express.static(__dirname, {
+      express.static(path.join(__dirname, 'client/dist'), {
         lastModified: false,
       }),
     );
