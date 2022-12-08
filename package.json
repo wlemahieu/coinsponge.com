@@ -5,9 +5,9 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
-    "start": "node ./build/index.js",
+    "start": "./node_modules/.bin/node ./client/dist/index.js",
     "tsc": "tsc",
-    "prepare": "npm run tsc",
+    "prepare": "cd client && npm ci && npm run build && cd ../ && npm run tsc",
     "dev": "ts-node-dev -r tsconfig-paths/register ./index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,8 +23,8 @@
     "@types/express-session": "^1.17.5",
     "@types/hash-sum": "^1.0.0",
     "@types/luxon": "^3.0.2",
-    "@types/node": "^18.11.0",
     "@types/module-alias": "^2.0.1",
+    "@types/node": "^18.11.0",
     "@types/uuid": "^8.3.4",
     "@types/ws": "^8.5.3",
     "connect-redis": "^6.1.3",
