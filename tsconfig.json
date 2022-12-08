@@ -5,11 +5,11 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "outDir": "./build",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@config/*": ["config/*"]
     }
   },
 
-  "exclude": ["node_modules", "**/*.spec.ts", "build"]
+  "exclude": ["node_modules", "build"]
 }
