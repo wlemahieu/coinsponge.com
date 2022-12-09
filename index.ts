@@ -17,5 +17,5 @@ configRoutes(app);
 configStaticFiles(app);
 
 server.listen(process.env.PORT || 7777, () => {
-  console.log(`*~~% www.coinsponge.com %~~*`);
+  console.log(`*~~% coinsponge.com %~~*`);
 });
