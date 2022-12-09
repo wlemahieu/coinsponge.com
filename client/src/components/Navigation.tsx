@@ -9,7 +9,7 @@ const Navigation: Component = () => {
   const location = useLocation();
   console.log({ location });
 
-  return <div class={styles.root}>Navigation</div>;
+  return <div class={styles.root}>Nav</div>;
 };
 
 export default Navigation;
