@@ -20,9 +20,9 @@
     "luxon": "^3.0.4",
     "socket.io-client": "^4.5.3",
     "solid-js": "^1.5.1",
-    "typescript": "^4.9.3",
-    "vite": "^3.1.8",
+    "typescript": "^4.9.4",
+    "vite": "^3.2.5",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-solid": "^2.3.9"
+    "vite-plugin-solid": "^2.4.0"
   }
 }

@@ -39,7 +39,6 @@ const App: Component = () => {
   const [wss] = createSignal<WebSocket>(new WebSocket('ws://localhost:7777'));
 
   onMount(async () => {
-    console.log('onMount');
     console.log('import.meta.env.PROD', import.meta.env.PROD);
     const sessionID = await v1GetMyUser();
     setState('sessionID', () => sessionID);

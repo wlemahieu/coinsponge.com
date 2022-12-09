@@ -1,9 +1,11 @@
-.header {
+.root {
+  border: 2px dotted green;
   text-align: center;
   padding: 1rem;
 }
 
 .logo {
+  border: 1px solid black;
   height: 10vmin !important;
   pointer-events: none;
 }

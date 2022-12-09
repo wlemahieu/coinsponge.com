@@ -2,9 +2,11 @@ import { defineConfig } from 'vite';
 import path from 'path';
 import solidPlugin from 'vite-plugin-solid';
 import eslint from 'vite-plugin-eslint';
+import suidPlugin from '@suid/vite-plugin';
 
 export default defineConfig({
   plugins: [
+    suidPlugin(),
     solidPlugin(),
     {
       // default settings on build (i.e. fail on error)
