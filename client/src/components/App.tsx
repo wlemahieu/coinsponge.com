@@ -5,8 +5,9 @@ import { Accessor, Component, createContext, createEffect, createSignal, onMount
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 import { Router } from '@solidjs/router';
 import Header from '@components/Header';
+import Footer from '@components/Footer';
 import Navigation from '@components/Navigation';
-import Routes from '@components/Routes';
+import Routes from '@src/Routes';
 
 const functionURL = 'https://coinsponge-com-5awxk26zha-uw.a.run.app';
 
@@ -72,6 +73,7 @@ const App: Component = () => {
           <Header />
           <Navigation />
           <Routes />
+          <Footer />
         </Router>
       </Show>
     </AppContext.Provider>
