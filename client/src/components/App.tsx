@@ -8,7 +8,7 @@ import Header from '@components/Header';
 import Navigation from '@components/Navigation';
 import Routes from '@components/Routes';
 
-const functionURL = 'https://coinsponge-com-frontend-5awxk26zha-uw.a.run.app';
+const functionURL = 'https://coinsponge-com-5awxk26zha-uw.a.run.app';
 
 const v1GetMyUser = async (): Promise<string> => {
   const url = import.meta.env.PROD ? functionURL : 'http://localhost:7777';
