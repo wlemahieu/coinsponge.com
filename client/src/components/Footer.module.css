@@ -19,3 +19,11 @@
 .list > li {
   margin-right: 1rem;
 }
+
+.cloudflare {
+  width: 100px;
+}
+
+.polygonio {
+  width: 100px;
+}

@@ -1,6 +1,8 @@
 import styles from '@components/Footer.module.css';
 import { Component } from 'solid-js';
 import { A } from '@solidjs/router';
+import cloudflare from '@assets/cloudflare.svg';
+import polygonio from '@assets/polygonio.svg';
 
 const Footer: Component = () => {
   return (
@@ -16,7 +18,15 @@ const Footer: Component = () => {
           <A href="/contact">Contact us</A>
         </li>
       </ul>
-      <span>© 2022 Pugs, LLC. All Rights Reserved.</span>
+      <div>
+        Protected by:
+        <img src={cloudflare} class={styles.cloudflare} />
+      </div>
+      <div>
+        Powered By:
+        <img src={polygonio} class={styles.polygonio} />
+      </div>
+      <div>© 2022 Pugs, LLC. All Rights Reserved.</div>
     </footer>
   );
 };
