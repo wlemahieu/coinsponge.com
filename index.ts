@@ -2,6 +2,7 @@ import moduleAlias from 'module-alias';
 
 moduleAlias.addAliases({
   '@config': `${__dirname}/config`,
+  '@routes': `${__dirname}/routes`,
 });
 
 import configExpress from '@config/express';
