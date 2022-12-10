@@ -28,7 +28,7 @@ const cookie = {
 };
 
 const resave = false;
-const saveUninitialized = true;
+const saveUninitialized = false;
 const unset = 'destroy';
 
 export default () => {

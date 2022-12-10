@@ -16,6 +16,8 @@ const [server, wss] = configSockets(app, sessionParser);
 configRoutes(app);
 configStaticFiles(app);
 
-server.listen(process.env.PORT || 7777, () => {
-  console.log(`*~~% coinsponge.com %~~*`);
+const port = process.env.PORT || 7777;
+
+server.listen(port, () => {
+  console.log(`*~~% coinsponge.com (port ${port}) %~~*`);
 });
