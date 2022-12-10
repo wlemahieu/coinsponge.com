@@ -8,7 +8,10 @@
     "baseUrl": ".",
     "paths": {
       "@config/*": ["config/*"],
-      "@routes/*": ["routes/*"]
+      "@pulse/*": ["pulse/*"],
+      "@routes/*": ["routes/*"],
+      "@store/*": ["store/*"],
+      "@transformers/*": ["transformers/*"]
     }
   },
 

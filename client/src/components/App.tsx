@@ -46,9 +46,9 @@ const App: Component = () => {
   });
 
   createEffect(() => {
-    // const ws = wss();
+    const ws = wss();
     // Connection opened
-    /*
+
     ws.addEventListener('open', (event: Event) => {
       // console.log('ws open event = ', event);
     });
@@ -56,14 +56,14 @@ const App: Component = () => {
     // Connection closed
     ws.addEventListener('close', (event: CloseEvent) => {
       // console.log('ws close event = ', event);
-    });*/
+    });
+
     // Listen for messages
-    /*
+
     ws.addEventListener('message', (event: MessageEvent) => {
       const data = JSON.parse(event.data);
       console.log('message', data);
     });
-    */
   });
 
   return (

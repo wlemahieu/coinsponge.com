@@ -9,7 +9,8 @@ export interface ExtWebSocket extends WebSocket {
   socketID?: string;
 }
 
-const heartbeat = (ws: ExtWebSocket) => {
+const pong = (ws: ExtWebSocket) => {
+  // console.log('pong');
   ws.isAlive = true;
 };
 
@@ -44,13 +45,13 @@ export default (app: Application, sessionParser: any): [Server, any] => {
     client.isAlive = true;
     client.sessionID = request.sessionID;
     client.socketID = uuidv4();
-    client.on('pong', () => heartbeat(client));
+    client.on('pong', () => pong(client));
 
     // message all clients in the ui
     client.on('message', async function message(d, isBinary) {
       if (client.readyState === WebSocket.OPEN) {
         const clientSessID = client.sessionID as string;
-        console.log({ clientSessID });
+        console.log('message', { clientSessID });
       }
       // wss.clients.forEach(function each(client: ExtWebSocket) {});
     });
