@@ -12,7 +12,7 @@ const Footer: Component = () => {
 
   const goToAbout = () => navigate('/about');
   const goToPrivacyPolicy = () => navigate('/privacy-policy');
-  const goToContactUs = () => navigate('/contact');
+  const goToContact = () => navigate('/contact');
 
   return (
     <footer class={styles.root}>
@@ -21,10 +21,10 @@ const Footer: Component = () => {
           <Link onClick={goToAbout}>About</Link>
         </li>
         <li>
-          <Link onClick={goToPrivacyPolicy}>Privacy policy</Link>
+          <Link onClick={goToPrivacyPolicy}>Privacy Policy</Link>
         </li>
         <li>
-          <Link onClick={goToContactUs}>Contact us</Link>
+          <Link onClick={goToContact}>Contact</Link>
         </li>
       </ul>
       <div class={styles.brandWrapper}>

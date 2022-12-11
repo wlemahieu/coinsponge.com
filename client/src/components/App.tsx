@@ -9,6 +9,7 @@ import Footer from '@components/Footer';
 import Navigation from '@components/Navigation';
 import Routes from '@src/Routes';
 import CssBaseline from '@suid/material/CssBaseline';
+import Container from '@suid/material/Container';
 
 const functionURL = 'https://coinsponge-com-5awxk26zha-uw.a.run.app';
 
@@ -73,10 +74,12 @@ const App: Component = () => {
       <AppContext.Provider value={[state, wss]}>
         <Show when={state.sessionID.length}>
           <Router>
-            <Header />
-            <Navigation />
-            <Routes />
-            <Footer />
+            <Container maxWidth="md">
+              <Header />
+              <Navigation />
+              <Routes />
+              <Footer />
+            </Container>
           </Router>
         </Show>
       </AppContext.Provider>
