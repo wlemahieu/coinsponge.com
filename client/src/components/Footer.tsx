@@ -1,5 +1,6 @@
 import styles from '@components/Footer.module.css';
 import polygonio from '@assets/polygonio.svg';
+import nano from '@assets/nano.svg';
 import cloudflare from '@assets/cloudflare.svg';
 import { Component } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
@@ -26,19 +27,27 @@ const Footer: Component = () => {
           <Link onClick={goToContactUs}>Contact us</Link>
         </li>
       </ul>
-      <div>
-        Protected by:
-        <A href="https://www.cloudflare.com/" target="_blank" rel="noreferrer">
-          <img src={cloudflare} class={styles.cloudflare} />
-        </A>
+      <div class={styles.brandWrapper}>
+        <div class={styles.brand}>
+          Protected by&nbsp;
+          <A href="https://cloudflare.com/" target="_blank" rel="noreferrer">
+            <img src={cloudflare} class={styles.cloudflare} />
+          </A>
+        </div>
+        <div class={styles.brand}>
+          Powered by&nbsp;
+          <A href="https://polygon.io/" target="_blank" rel="noreferrer">
+            <img src={polygonio} />
+          </A>
+        </div>
+        <div class={styles.brand}>
+          Building on&nbsp;
+          <A href="https://nano.org/" target="_blank" rel="noreferrer">
+            <img src={nano} />
+          </A>
+        </div>
       </div>
-      <div>
-        Powered By:
-        <A href="https://polygon.io/" target="_blank" rel="noreferrer">
-          <img src={polygonio} class={styles.polygonio} />
-        </A>
-      </div>
-      <div>© 2022 Pugs, LLC. All Rights Reserved.</div>
+      <div class={styles.legal}>© 2022 Pugs, LLC. All Rights Reserved.</div>
     </footer>
   );
 };

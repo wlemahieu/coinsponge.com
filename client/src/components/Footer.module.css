@@ -1,5 +1,4 @@
 .root {
-  border-top: 1px dashed black;
   text-align: center;
   margin-top: 4rem;
 }
@@ -20,10 +19,21 @@
   margin-right: 1rem;
 }
 
-.cloudflare {
-  width: 100px;
+.brandWrapper {
+  margin-top: 1rem;
 }
 
-.polygonio {
+.brand img {
   width: 100px;
+  vertical-align: bottom;
+  margin-bottom: 0.2rem;
+}
+
+.cloudflare {
+  margin-bottom: 0.55rem !important;
+}
+
+.legal {
+  margin-top: 1rem;
+  font-size: 0.8rem;
 }
