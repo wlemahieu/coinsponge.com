@@ -17,9 +17,6 @@ const Navigation: Component = () => {
           <A href="/">Coins</A>
         </li>
         <li>
-          <A href="/spore">Spore</A>
-        </li>
-        <li>
           <A href="https://trello.com/b/mwGqpn5b/coinspongecom" target="_blank">
             Roadmap
           </A>
