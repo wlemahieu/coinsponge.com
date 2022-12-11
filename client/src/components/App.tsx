@@ -16,7 +16,6 @@ const functionURL = 'https://coinsponge-com-5awxk26zha-uw.a.run.app';
 const v1GetMyUser = async (): Promise<string> => {
   const url = import.meta.env.PROD ? functionURL : 'http://localhost:7777';
   const path = '/v1/me';
-  console.log({ url, path });
   const results = await fetch(`${url}${path}`, {
     method: 'GET',
     credentials: 'include',
@@ -42,7 +41,6 @@ const App: Component = () => {
   const [wss] = createSignal<WebSocket>(new WebSocket('ws://localhost:7777'));
 
   onMount(async () => {
-    console.log('import.meta.env.PROD', import.meta.env.PROD);
     const sessionID = await v1GetMyUser();
     setState('sessionID', () => sessionID);
   });
