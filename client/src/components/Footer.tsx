@@ -2,6 +2,7 @@ import styles from '@components/Footer.module.css';
 import polygonio from '@assets/polygonio.svg';
 import nano from '@assets/nano.svg';
 import cloudflare from '@assets/cloudflare.svg';
+import gcp from '@assets/gcp.svg';
 import { Component } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { A } from '@solidjs/router';
@@ -36,12 +37,18 @@ const Footer: Component = () => {
         </div>
         <div class={styles.brand}>
           Powered by&nbsp;
+          <A href="https://cloud.google.com" target="_blank" rel="noreferrer">
+            <img src={gcp} class={styles.gcp} />
+          </A>
+        </div>
+        <div class={styles.brand}>
+          Sourcing&nbsp;
           <A href="https://polygon.io/" target="_blank" rel="noreferrer">
             <img src={polygonio} />
           </A>
         </div>
         <div class={styles.brand}>
-          Building on&nbsp;
+          Integrating&nbsp;
           <A href="https://nano.org/" target="_blank" rel="noreferrer">
             <img src={nano} />
           </A>
