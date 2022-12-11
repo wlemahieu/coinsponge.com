@@ -8,7 +8,7 @@ const Header: Component = () => {
     <header class={styles.root}>
       <img src={logo} class={styles.logo} alt="logo" />
       <Typography variant="h3" gutterBottom>
-        CoinSponge.com
+        CoinSponge
       </Typography>
     </header>
   );

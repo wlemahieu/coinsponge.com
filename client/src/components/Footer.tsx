@@ -12,7 +12,8 @@ const Footer: Component = () => {
   const navigate = useNavigate();
 
   const goToAbout = () => navigate('/about');
-  const goToPrivacyPolicy = () => navigate('/privacy-policy');
+  const goToTerms = () => navigate('/terms');
+  const goToPrivacy = () => navigate('/privacy');
   const goToContact = () => navigate('/contact');
 
   return (
@@ -22,7 +23,10 @@ const Footer: Component = () => {
           <Link onClick={goToAbout}>About</Link>
         </li>
         <li>
-          <Link onClick={goToPrivacyPolicy}>Privacy Policy</Link>
+          <Link onClick={goToTerms}>Terms of Use</Link>
+        </li>
+        <li>
+          <Link onClick={goToPrivacy}>Privacy Policy</Link>
         </li>
         <li>
           <Link onClick={goToContact}>Contact</Link>

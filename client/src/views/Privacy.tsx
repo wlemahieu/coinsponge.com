@@ -2,10 +2,10 @@
  * Privacy polcy page view
  */
 import { Component } from 'solid-js';
-import styles from '@views/PrivacyPolicy.module.css';
+import styles from '@views/Privacy.module.css';
 
-const PrivacyPolicy: Component = () => {
+const Privacy: Component = () => {
   return <div class={styles.root}>Privacy policy coming soon!</div>;
 };
 
-export default PrivacyPolicy;
+export default Privacy;

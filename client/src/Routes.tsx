@@ -5,7 +5,8 @@ import { Component } from 'solid-js';
 import { Routes as Router, Route } from '@solidjs/router';
 import Home from '@views/Home';
 import About from '@views/About';
-import PrivacyPolicy from '@views/PrivacyPolicy';
+import Terms from '@src/views/Terms';
+import Privacy from '@src/views/Privacy';
 import Contact from '@views/Contact';
 
 const Routes: Component = () => {
@@ -13,7 +14,8 @@ const Routes: Component = () => {
     <Router>
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
-      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
       <Route path="/contact" component={Contact} />
     </Router>
   );
