@@ -3,23 +3,24 @@
  */
 import styles from '@components/Navigation.module.css';
 import { Component } from 'solid-js';
-import { useLocation } from '@solidjs/router';
-import { A } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
+import Link from '@suid/material/Link';
 
 const Navigation: Component = () => {
-  const location = useLocation();
-  console.log({ location });
+  const navigate = useNavigate();
+
+  const goToCoins = () => navigate('/');
 
   return (
     <nav class={styles.root}>
       <ul class={styles.list}>
         <li>
-          <A href="/">Coins</A>
+          <Link onClick={goToCoins}>Coins</Link>
         </li>
         <li>
-          <A href="https://trello.com/b/mwGqpn5b/coinspongecom" target="_blank">
+          <Link href="https://trello.com/b/mwGqpn5b/coinspongecom" target="_blank" rel="noreferrer">
             Roadmap
-          </A>
+          </Link>
         </li>
       </ul>
     </nav>

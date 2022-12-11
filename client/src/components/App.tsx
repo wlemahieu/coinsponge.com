@@ -8,6 +8,7 @@ import Header from '@components/Header';
 import Footer from '@components/Footer';
 import Navigation from '@components/Navigation';
 import Routes from '@src/Routes';
+import CssBaseline from '@suid/material/CssBaseline';
 
 const functionURL = 'https://coinsponge-com-5awxk26zha-uw.a.run.app';
 
@@ -67,16 +68,19 @@ const App: Component = () => {
   });
 
   return (
-    <AppContext.Provider value={[state, wss]}>
-      <Show when={state.sessionID.length}>
-        <Router>
-          <Header />
-          <Navigation />
-          <Routes />
-          <Footer />
-        </Router>
-      </Show>
-    </AppContext.Provider>
+    <>
+      <CssBaseline />
+      <AppContext.Provider value={[state, wss]}>
+        <Show when={state.sessionID.length}>
+          <Router>
+            <Header />
+            <Navigation />
+            <Routes />
+            <Footer />
+          </Router>
+        </Show>
+      </AppContext.Provider>
+    </>
   );
 };
 

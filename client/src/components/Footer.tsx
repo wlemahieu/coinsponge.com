@@ -1,30 +1,42 @@
 import styles from '@components/Footer.module.css';
-import { Component } from 'solid-js';
-import { A } from '@solidjs/router';
-import cloudflare from '@assets/cloudflare.svg';
 import polygonio from '@assets/polygonio.svg';
+import cloudflare from '@assets/cloudflare.svg';
+import { Component } from 'solid-js';
+import { useNavigate } from '@solidjs/router';
+import { A } from '@solidjs/router';
+import Link from '@suid/material/Link';
 
 const Footer: Component = () => {
+  const navigate = useNavigate();
+
+  const goToAbout = () => navigate('/about');
+  const goToPrivacyPolicy = () => navigate('/privacy-policy');
+  const goToContactUs = () => navigate('/contact');
+
   return (
     <footer class={styles.root}>
       <ul class={styles.list}>
         <li>
-          <A href="/about">About</A>
+          <Link onClick={goToAbout}>About</Link>
         </li>
         <li>
-          <A href="/privacy-policy">Privacy policy</A>
+          <Link onClick={goToPrivacyPolicy}>Privacy policy</Link>
         </li>
         <li>
-          <A href="/contact">Contact us</A>
+          <Link onClick={goToContactUs}>Contact us</Link>
         </li>
       </ul>
       <div>
         Protected by:
-        <img src={cloudflare} class={styles.cloudflare} />
+        <A href="https://www.cloudflare.com/" target="_blank" rel="noreferrer">
+          <img src={cloudflare} class={styles.cloudflare} />
+        </A>
       </div>
       <div>
         Powered By:
-        <img src={polygonio} class={styles.polygonio} />
+        <A href="https://polygon.io/" target="_blank" rel="noreferrer">
+          <img src={polygonio} class={styles.polygonio} />
+        </A>
       </div>
       <div>© 2022 Pugs, LLC. All Rights Reserved.</div>
     </footer>
