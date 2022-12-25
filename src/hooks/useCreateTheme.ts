@@ -8,25 +8,25 @@ const useCreateTheme = (): Theme => {
     typography: {
       fontFamily: 'Hanken Grotesk',
       h1: {
-        fontSize: '66px',
+        fontSize: '57px',
         fontWeight: 500,
       },
       h2: {
-        fontSize: '56px',
+        fontSize: '49px',
         fontWeight: 500,
         marginBottom: '1rem',
       },
       h3: {
-        fontSize: '46px',
+        fontSize: '41px',
       },
       h4: {
-        fontSize: '36px',
+        fontSize: '33px',
       },
       h5: {
-        fontSize: '26px',
+        fontSize: '25px',
       },
       h6: {
-        fontSize: '18px',
+        fontSize: '17px',
         fontWeight: 600,
       },
       body2: {

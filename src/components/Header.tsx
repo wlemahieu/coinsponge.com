@@ -34,16 +34,14 @@ const Header: FC = () => {
   };
 
   return (
-    <AppBar component="nav" position="static" sx={{ mb: 4, width: '100%' }} color="transparent">
+    <AppBar component="nav" position="static" sx={{ padding: 0, margin: 0, mb: 3, width: '100%' }} color="transparent">
       <Container>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', cursor: 'pointer' }} onClick={() => navigate('/')}>
             <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} src={logo} />
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              href="/"
               sx={{
                 mr: 2,
                 mt: 1,
@@ -54,7 +52,7 @@ const Header: FC = () => {
                 textDecoration: 'none',
               }}
             >
-              Coin Sponge
+              CoinSponge
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -115,7 +113,7 @@ const Header: FC = () => {
           >
             coinsponge.com
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, textAlign: 'center' }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, textAlign: 'center' }}>
             <Navigation />
           </Box>
         </Toolbar>

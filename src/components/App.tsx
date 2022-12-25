@@ -24,7 +24,7 @@ const App: FC = () => {
 
   return (
     <>
-      <Container className={styles.root} ref={ref}>
+      <Container maxWidth="xl" className={styles.root} ref={ref}>
         <Header />
         <Routes />
         <Footer />

@@ -3,15 +3,15 @@
  */
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '@views/Privacy.module.css';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Box } from '@mui/material';
 
 const Privacy: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.root}>
+    <Box sx={{ pl: 4, pr: 4 }}>
       <Typography variant="h2">Privacy Policy</Typography>
       <Typography variant="body2">Last updated: December 21, 2022</Typography>
       <Typography variant="body2">
@@ -1238,7 +1238,7 @@ const Privacy: FC = () => {
           </Typography>
         </li>
       </ul>
-    </div>
+    </Box>
   );
 };
 

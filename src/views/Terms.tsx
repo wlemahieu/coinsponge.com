@@ -3,15 +3,15 @@
  */
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '@views/Terms.module.css';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Box } from '@mui/material';
 
 const Terms: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.root}>
+    <Box sx={{ pl: 4, pr: 4 }}>
       <Typography variant="h2">Terms and Conditions</Typography>
       <Typography variant="body2">Last updated: December 21, 2022</Typography>
       <Typography variant="body2">
@@ -407,7 +407,7 @@ const Terms: FC = () => {
           </Typography>
         </li>
       </ul>
-    </div>
+    </Box>
   );
 };
 
