@@ -13,3 +13,11 @@ export const sendEmail = functions
     }
     return doSendEmail(data.text);
   });
+
+export const getCoinPrice = functions
+  .region('us-west1')
+  .pubsub.schedule('every 1 minutes')
+  .onRun((context) => {
+    console.log('getCoinPrice', context);
+    return null;
+  });
