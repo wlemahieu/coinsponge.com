@@ -18,7 +18,7 @@ const Home: FC = () => {
   };
 
   return (
-    <Container maxWidth="sm" className={styles.root}>
+    <Container maxWidth="md" sx={{ textAlign: 'center' }}>
       <Typography variant="h4" gutterBottom>
         Cryptocurrency Prices by Market Cap
       </Typography>

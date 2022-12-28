@@ -28,19 +28,19 @@ const Footer: FC = () => {
       <div className={styles.brandWrapper}>
         <div className={styles.brand}>
           Protected by&nbsp;
-          <a href="https://cloudflare.com/" target="_blank" rel="noreferrer">
+          <a href="https://cloudflare.com/" target="_blank" rel="external nofollow noopener">
             <img src={cloudflare} className={styles.cloudflare} />
           </a>
         </div>
         <div className={styles.brand}>
           Powered by&nbsp;
-          <a href="https://firebase.google.com/" target="_blank" rel="noreferrer">
+          <a href="https://firebase.google.com/" target="_blank" rel="external nofollow noopener">
             <img src={firebase} className={styles.firebase} />
           </a>
         </div>
         <div className={styles.brand}>
           Integrating&nbsp;
-          <a href="https://nano.org" target="_blank" rel="noreferrer">
+          <a href="https://nano.org" target="_blank" rel="external nofollow noopener">
             <img src={nano} className={styles.firebase} />
           </a>
         </div>
