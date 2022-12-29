@@ -4,30 +4,7 @@ import { DateTime } from 'luxon';
 // import { doc, setDoc } from 'firebase/firestore';
 import { initializeApp } from '@firebase/app';
 import { getFirestore, connectFirestoreEmulator } from '@firebase/firestore';
-import { collection, addDoc } from 'firebase/firestore';
-
-type ContextT = EventContext<Record<string, string>>;
-
-const baseURL = 'https://www.binance.us/api/v3/klines';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyAzBYq8pLcIDa6DgAbnyuVg0Id1AKbae3A',
-  authDomain: 'coinsponge-com.firebaseapp.com',
-  projectId: 'coinsponge-com',
-  storageBucket: 'coinsponge-com.appspot.com',
-  messagingSenderId: '700506993969',
-  appId: '1:700506993969:web:4b2ee26409040b2d66ac10',
-  measurementId: 'G-C4Y69T6VD7',
-};
-
-let absoluteEndTime = '1569853320000'; //October 1st, 2019 (start of btcusd on binance)
-let symbol = 'BTCUSD';
-let interval = '1m';
-// let startTime = '1671933771000'; // Saturday, December 24, 2022 6:02:51 PM
-// let endTime = '1672020171000'; // Sunday, December 25, 2022 6:02:51 PM
-let limit = '1000';
-
-let url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${absoluteEndTime}&limit=${limit}`;
+import { setDoc, getDoc, doc } from 'firebase/firestore';
 
 type StartTimestamp = number;
 type OpenPrice = number;
@@ -38,6 +15,9 @@ type BtcVolume = number;
 type EndTimestamp = number;
 type BusdVolume = number;
 
+/**
+ * Known items from the desctructured array of datapoints
+ */
 type ItemT = [
   StartTimestamp,
   OpenPrice,
@@ -53,6 +33,26 @@ type ItemT = [
   //?,
 ];
 
+type ContextT = EventContext<Record<string, string>>;
+
+const baseURL = 'https://www.binance.us/api/v3/klines';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyAzBYq8pLcIDa6DgAbnyuVg0Id1AKbae3A',
+  authDomain: 'coinsponge-com.firebaseapp.com',
+  projectId: 'coinsponge-com',
+  storageBucket: 'coinsponge-com.appspot.com',
+  messagingSenderId: '700506993969',
+  appId: '1:700506993969:web:4b2ee26409040b2d66ac10',
+  measurementId: 'G-C4Y69T6VD7',
+};
+
+const absoluteEndTime = 1569568860000; // October 1st, 2019 (start of btcusd on binance)
+let endTime = absoluteEndTime;
+const interval = '1m';
+const limit = '1000';
+let symbol = 'BTCUSD';
+
 const getCoinPrice = async (context: ContextT) => {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -64,36 +64,61 @@ const getCoinPrice = async (context: ContextT) => {
   }
 
   const now = DateTime.now();
+
+  /**
+   * Update crawler meta with last crawled time.
+   */
+  try {
+    const resp = (await getDoc(doc(db, `crawler`, `meta`))) as any;
+    const meta = resp.data();
+    if (meta?.lastEndTime) {
+      endTime = parseInt(meta.lastEndTime) + 86400; // add 1 day
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  const url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${endTime}&limit=${limit}`;
   console.log(`getCoinPrice --- ${now} --- ${url}`);
+
+  /**
+   * After determining where the crawler left-off,
+   * start retrieving data.
+   */
   try {
     const results = await axios.get(url);
     const data = results?.data as Array<ItemT>;
+    // 1000 1-minute items
     if (data?.length) {
-      data.map((row: ItemT) => {
-        void row;
-        /*
-        const [startTimestamp, openPrice, highPrice, lowPrice, closePrice,  btcVolume, endTimestamp, busdVolume] = row;
-        const st = DateTime.fromMillis(startTimestamp);
-        const stf = st.toLocaleString({ weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-        const et = DateTime.fromMillis(endTimestamp);
-        const etf = et.toLocaleString({ weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-        console.log({startTimestamp: stf, openPrice, highPrice, lowPrice, closePrice,  btcVolume, endTimestamp: etf, busdVolume});
-      */
+      const promises = data.map((row: ItemT) => {
+        const [startTimestamp, openPrice, highPrice, lowPrice, closePrice, btcVolume, busdVolume] = row;
+        const startOfDay = DateTime.fromMillis(startTimestamp).startOf('day').toMillis();
+        const field = startTimestamp / 1000;
+        const docName = startOfDay / 1000;
+        return setDoc(
+          doc(db, 'datapoints', `${docName}`),
+          {
+            [`${field}`]: [openPrice, highPrice, lowPrice, closePrice, btcVolume, busdVolume],
+          },
+          { merge: true },
+        );
       });
+      await Promise.all(promises);
     }
   } catch (e) {
-    console.log('e', e);
+    console.log(e);
   }
 
   try {
-    const docRef = await addDoc(collection(db, 'users'), {
-      first: 'Ada',
-      last: 'Lovelace',
-      born: 1815,
-    });
-    console.log('Document written with ID: ', docRef.id);
+    await setDoc(
+      doc(db, `crawler`, `meta`),
+      {
+        lastEndTime: `${endTime}`,
+      },
+      { merge: true },
+    );
   } catch (e) {
-    console.error('Error adding document: ', e);
+    console.log(e);
   }
 };
 
