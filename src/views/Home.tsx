@@ -78,9 +78,6 @@ const Home: FC = () => {
         Cryptocurrency Prices by Market Cap
       </Typography>
 
-      <Typography variant="h4" gutterBottom>
-        Last updated {data ? data[0] : null}
-      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ overflow: 'hidden' }} aria-label="simple table" size="small">
           <TableHead>
