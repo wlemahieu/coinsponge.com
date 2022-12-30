@@ -22,6 +22,7 @@ import useGetFirebaseUser from '@src/hooks/useGetFirebaseUser';
 import useGetFirestore from '@src/hooks/useGetFirestore';
 import { doc, getDoc, collection, query, where } from 'firebase/firestore';
 import numeral from 'numeral';
+import { DateTime } from 'luxon';
 
 const Home: FC = () => {
   const navigate = useNavigate();
@@ -65,15 +66,21 @@ const Home: FC = () => {
     const timestamp = item ? item[0] : null;
     const rawPrice = item ? item[1] : '420.69';
     const price = numeral(rawPrice).format('$0,0.00');
-    return { ...row, timestamp, price };
+    const date = timestamp
+      ? DateTime.fromMillis(parseInt(timestamp, 10) * 1000).toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)
+      : null;
+    return { ...row, date, price };
   });
-
+  console.log('data', data);
   return (
     <Container maxWidth="md" sx={{ textAlign: 'center' }}>
       <Typography variant="h4" gutterBottom>
         Cryptocurrency Prices by Market Cap
       </Typography>
 
+      <Typography variant="h4" gutterBottom>
+        Last updated {data ? data[0] : null}
+      </Typography>
       <TableContainer component={Paper}>
         <Table sx={{ overflow: 'hidden' }} aria-label="simple table" size="small">
           <TableHead>
@@ -81,6 +88,7 @@ const Home: FC = () => {
               <TableCell></TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Coin</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Price</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Data from date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,6 +103,9 @@ const Home: FC = () => {
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {row.price}
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {row.date}
                   </TableCell>
                 </TableRow>
               );

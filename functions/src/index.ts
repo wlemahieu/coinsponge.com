@@ -30,10 +30,10 @@ export const getCoinPrice = functions
 export const getLatestPrices = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 120,
-    memory: '512MB',
+    timeoutSeconds: 180,
+    memory: '2GB',
   })
-  .pubsub.schedule('every 1 minutes')
+  .pubsub.schedule('every 3 minutes')
   .onRun((context) => {
     return doGetLatestPrices(context);
   });

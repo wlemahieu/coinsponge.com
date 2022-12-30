@@ -14,8 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import logo from '@assets/android-chrome-512x512.png';
 import Navigation from '@components/Navigation';
 import useGetTabs from '@src/hooks/useGetTabs';
+import Alert from '@mui/material/Alert';
 
 const Header: FC = () => {
+  const [alertVisible, setAlertVisible] = useState(true);
   const navigate = useNavigate();
   const [visibleTabs, visibleKey, handleChange] = useGetTabs();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -32,6 +34,8 @@ const Header: FC = () => {
     handleCloseNavMenu();
     handleChange(e);
   };
+
+  const onCloseAlert = () => setAlertVisible(false);
 
   return (
     <Container maxWidth="md">
@@ -118,6 +122,12 @@ const Header: FC = () => {
           </Box>
         </Toolbar>
       </AppBar>
+
+      {alertVisible ? (
+        <Alert color="info" onClose={onCloseAlert}>
+          Please check back soon! Thank you for your patience as we backfill data.
+        </Alert>
+      ) : null}
     </Container>
   );
 };

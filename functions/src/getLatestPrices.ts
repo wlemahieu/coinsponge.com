@@ -52,8 +52,7 @@ let isEmulator = false;
 const getLatestPrices = async (context: ContextT) => {
   const pair = 'BTCUSD';
   void context;
-  const now = DateTime.now();
-  console.log(`getLatestPrices() ${now}`);
+  console.log(`----- getLatestPrices(${pair}) START ${DateTime.now()} -----`);
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -68,10 +67,9 @@ const getLatestPrices = async (context: ContextT) => {
    * Update crawler meta with last crawled time.
    */
   try {
-    console.log('pair', pair);
     const querySnapshot = (await getDocs(collection(db, pair))) as any;
     const items: [number, number][] = [];
-    console.log('querySnapshot', querySnapshot);
+
     querySnapshot.forEach((doc: any) => {
       const data = doc.data();
       const keys = Object.keys(data);
@@ -81,9 +79,7 @@ const getLatestPrices = async (context: ContextT) => {
       const closePrice = lastValue[3];
       items.push([dayMS, closePrice]); // close price for now
     });
-    console.log('items', items);
     const lastItem = items[items.length - 1];
-    console.log('lastItem', lastItem);
 
     await setDoc(
       doc(db, `prices`, `latest`),
@@ -92,11 +88,10 @@ const getLatestPrices = async (context: ContextT) => {
       },
       { merge: true },
     );
-    console.log({ pair, lastItem });
-    console.log('');
   } catch (e) {
     console.log(e);
   }
+  console.log(`----- getLatestPrices(${pair}) END ${DateTime.now()} -----`);
 };
 
 export default getLatestPrices;
