@@ -34,8 +34,8 @@ const Header: FC = () => {
   };
 
   return (
-    <AppBar component="nav" position="static" sx={{ padding: 0, margin: 0, mb: 3, width: '100%' }} color="transparent">
-      <Container>
+    <Container maxWidth="md">
+      <AppBar component="nav" position="static" sx={{ p: 0, m: 0, mb: 3 }} color="transparent" elevation={0}>
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', cursor: 'pointer' }} onClick={() => navigate('/')}>
             <Avatar sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} src={logo} />
@@ -117,8 +117,8 @@ const Header: FC = () => {
             <Navigation />
           </Box>
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
+    </Container>
   );
 };
 

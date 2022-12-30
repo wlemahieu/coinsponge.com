@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import doSendEmail from './sendEmail';
 import doGetCoinPrice from './getCoinPrice';
+import doGetLatestPrices from './getLatestPrices';
 
 export const sendEmail = functions
   .region('us-west1')
@@ -24,4 +25,11 @@ export const getCoinPrice = functions
   .pubsub.schedule('every 2 minutes')
   .onRun((context) => {
     return doGetCoinPrice(context);
+  });
+
+export const getLatestPrices = functions
+  .region('us-west1')
+  .pubsub.schedule('every 1 minutes')
+  .onRun((context) => {
+    return doGetLatestPrices(context);
   });
