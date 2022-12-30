@@ -71,6 +71,7 @@ const getLatestPrices = async (context: ContextT) => {
     console.log('pair', pair);
     const querySnapshot = (await getDocs(collection(db, pair))) as any;
     const items: [number, number][] = [];
+    console.log('querySnapshot', querySnapshot);
     querySnapshot.forEach((doc: any) => {
       const data = doc.data();
       const keys = Object.keys(data);
