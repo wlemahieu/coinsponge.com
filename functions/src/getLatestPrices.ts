@@ -68,6 +68,7 @@ const getLatestPrices = async (context: ContextT) => {
    * Update crawler meta with last crawled time.
    */
   try {
+    console.log('pair', pair);
     const querySnapshot = (await getDocs(collection(db, pair))) as any;
     const items: [number, number][] = [];
     querySnapshot.forEach((doc: any) => {
@@ -79,7 +80,10 @@ const getLatestPrices = async (context: ContextT) => {
       const closePrice = lastValue[3];
       items.push([dayMS, closePrice]); // close price for now
     });
+    console.log('items', items);
     const lastItem = items[items.length - 1];
+    console.log('lastItem', lastItem);
+
     await setDoc(
       doc(db, `prices`, `latest`),
       {
