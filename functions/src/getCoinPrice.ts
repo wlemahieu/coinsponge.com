@@ -56,7 +56,7 @@ let isEmulator = false;
 
 const getCoinPrice = async (context: ContextT) => {
   const now = DateTime.now();
-  console.log(`----- getCoinPrices ${now} -----`);
+  console.log(`getCoinPrices() ${now}`);
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -73,7 +73,6 @@ const getCoinPrice = async (context: ContextT) => {
   try {
     const resp = (await getDoc(doc(db, `crawler`, `meta`))) as any;
     const meta = resp.data();
-    console.log('meta?.lastStartTime', meta?.lastStartTime);
     if (meta?.lastStartTime) {
       startTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
     }
@@ -99,7 +98,7 @@ const getCoinPrice = async (context: ContextT) => {
         const field = startTimestamp / 1000;
         const docName = startOfDay / 1000;
         return setDoc(
-          doc(db, 'datapoints', `${docName}`),
+          doc(db, symbol, `${docName}`),
           {
             [`${field}`]: [openPrice, highPrice, lowPrice, closePrice, btcVolume, busdVolume],
           },

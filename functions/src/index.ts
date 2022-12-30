@@ -18,10 +18,10 @@ export const sendEmail = functions
 export const getCoinPrice = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 180,
+    timeoutSeconds: 120,
     memory: '512MB',
   })
-  .pubsub.schedule('every 3 minutes')
+  .pubsub.schedule('every 2 minutes')
   .onRun((context) => {
     return doGetCoinPrice(context);
   });
