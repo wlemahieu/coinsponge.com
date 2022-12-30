@@ -56,7 +56,7 @@ let isEmulator = false;
 
 const getCoinPrice = async (context: ContextT) => {
   const now = DateTime.now();
-  console.log(`----- getCoinPrice ${now} -----`);
+  console.log(`----- getCoinPrices ${now} -----`);
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
