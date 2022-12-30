@@ -55,6 +55,7 @@ let symbol = 'BTCUSD';
 let isEmulator = false;
 
 const getCoinPrice = async (context: ContextT) => {
+  void context;
   const now = DateTime.now();
   console.log(`getCoinPrices() ${now}`);
 
@@ -82,6 +83,11 @@ const getCoinPrice = async (context: ContextT) => {
 
   const url = `${baseURL}?symbol=${symbol}&interval=${interval}&startTime=${startTime}&limit=${limit}`;
   console.log(url);
+
+  if (startTime >= now.toMillis()) {
+    console.log('--- Crawl all caught up! ---');
+    return Promise.resolve();
+  }
 
   /**
    * After determining where the crawler left-off,
