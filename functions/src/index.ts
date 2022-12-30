@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import doSendEmail from './sendEmail';
-// import doGetCoinPrice from './getCoinPrice';
+import doGetCoinPrice from './getCoinPrice';
 
 export const sendEmail = functions
   .region('us-west1')
@@ -15,11 +15,13 @@ export const sendEmail = functions
     return doSendEmail(data.text);
   });
 
-/*
 export const getCoinPrice = functions
   .region('us-west1')
-  .pubsub.schedule('every 1 minutes')
+  .runWith({
+    timeoutSeconds: 180,
+    memory: '512MB',
+  })
+  .pubsub.schedule('every 3 minutes')
   .onRun((context) => {
     return doGetCoinPrice(context);
   });
-*/

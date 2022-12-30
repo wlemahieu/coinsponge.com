@@ -47,23 +47,25 @@ const firebaseConfig = {
   measurementId: 'G-C4Y69T6VD7',
 };
 
-const absoluteEndTime = 1569568860000; // October 1st, 2019 (start of btcusd on binance)
-let endTime = absoluteEndTime;
+const absoluteStartTime = 1568678400000; // September 17th, 2019 (start of btcusd on binance)
+let startTime = absoluteStartTime;
 const interval = '1m';
 const limit = '1000';
 let symbol = 'BTCUSD';
+let isEmulator = false;
 
 const getCoinPrice = async (context: ContextT) => {
+  const now = DateTime.now();
+  console.log(`----- getCoinPrice ${now} -----`);
+
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
   // connect to the local emulators
-  if (process.env.MODE === 'development') {
-    console.log('----- DEVELOPMENT MODE -----');
+  if (process.env.MODE === 'development' && !isEmulator) {
     connectFirestoreEmulator(db, '127.0.0.1', 6060);
+    isEmulator = true;
   }
-
-  const now = DateTime.now();
 
   /**
    * Update crawler meta with last crawled time.
@@ -71,15 +73,16 @@ const getCoinPrice = async (context: ContextT) => {
   try {
     const resp = (await getDoc(doc(db, `crawler`, `meta`))) as any;
     const meta = resp.data();
-    if (meta?.lastEndTime) {
-      endTime = parseInt(meta.lastEndTime) + 86400; // add 1 day
+    console.log('meta?.lastStartTime', meta?.lastStartTime);
+    if (meta?.lastStartTime) {
+      startTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
     }
   } catch (e) {
     console.log(e);
   }
 
-  const url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${endTime}&limit=${limit}`;
-  console.log(`getCoinPrice --- ${now} --- ${url}`);
+  const url = `${baseURL}?symbol=${symbol}&interval=${interval}&startTime=${startTime}&limit=${limit}`;
+  console.log(url);
 
   /**
    * After determining where the crawler left-off,
@@ -113,7 +116,7 @@ const getCoinPrice = async (context: ContextT) => {
     await setDoc(
       doc(db, `crawler`, `meta`),
       {
-        lastEndTime: `${endTime}`,
+        lastStartTime: `${startTime}`,
       },
       { merge: true },
     );
