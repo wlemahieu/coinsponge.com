@@ -84,7 +84,7 @@ const getCoinPrice = async (context: ContextT) => {
   const url = `${baseURL}?symbol=${symbol}&interval=${interval}&startTime=${startTime}&limit=${limit}`;
   console.log(url);
 
-  if (startTime >= now.toMillis()) {
+  if (startTime >= now.toUTC().toMillis()) {
     console.log('--- Crawl all caught up! ---');
     return Promise.resolve();
   }
