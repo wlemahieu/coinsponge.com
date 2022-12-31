@@ -48,7 +48,7 @@ const firebaseConfig = {
 };
 
 const absoluteStartTime = 1568678400000; // September 17th, 2019 (start of btcusd on binance)
-let startTime = absoluteStartTime;
+let endTime = absoluteStartTime;
 const interval = '1m';
 const limit = '1000';
 let symbol = 'BTCUSD';
@@ -75,16 +75,16 @@ const getCoinPrice = async (context: ContextT) => {
     const resp = (await getDoc(doc(db, `crawler`, `meta`))) as any;
     const meta = resp.data();
     if (meta?.lastStartTime) {
-      startTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
+      endTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
     }
   } catch (e) {
     console.log(e);
   }
 
-  const url = `${baseURL}?symbol=${symbol}&interval=${interval}&startTime=${startTime}&limit=${limit}`;
+  const url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${endTime}&limit=${limit}`;
   console.log(url);
 
-  if (startTime >= now.toUTC().toMillis()) {
+  if (endTime >= now.toUTC().toMillis() + 86400000) {
     console.log('--- Crawl all caught up! ---');
     return Promise.resolve();
   }
@@ -121,7 +121,7 @@ const getCoinPrice = async (context: ContextT) => {
     await setDoc(
       doc(db, `crawler`, `meta`),
       {
-        lastStartTime: `${startTime}`,
+        lastStartTime: `${endTime}`,
       },
       { merge: true },
     );
