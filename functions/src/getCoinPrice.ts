@@ -56,9 +56,6 @@ let isEmulator = false;
 
 const getCoinPrice = async (context: ContextT) => {
   void context;
-  const now = DateTime.now();
-  console.log(`getCoinPrices() ${now}`);
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
@@ -83,11 +80,6 @@ const getCoinPrice = async (context: ContextT) => {
 
   const url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${endTime}&limit=${limit}`;
   console.log(url);
-
-  if (endTime >= now.toUTC().toMillis() + 86400000) {
-    console.log('--- Crawl all caught up! ---');
-    return Promise.resolve();
-  }
 
   /**
    * After determining where the crawler left-off,
