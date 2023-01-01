@@ -5,13 +5,13 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { Box } from '@mui/material';
+import Container from '@mui/material/Container';
 
 const Terms: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ pl: 4, pr: 4 }}>
+    <Container maxWidth="md">
       <Typography variant="h2">Terms and Conditions</Typography>
       <Typography variant="body2">Last updated: December 21, 2022</Typography>
       <Typography variant="body2">
@@ -407,7 +407,7 @@ const Terms: FC = () => {
           </Typography>
         </li>
       </ul>
-    </Box>
+    </Container>
   );
 };
 
