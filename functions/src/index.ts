@@ -19,10 +19,10 @@ export const sendEmail = functions
 export const getCoinPrices = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 75,
+    timeoutSeconds: 60,
     memory: '2GB',
   })
-  .pubsub.schedule('every 75 seconds')
+  .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
     return doGetCoinPrices(context);
   });
@@ -30,10 +30,10 @@ export const getCoinPrices = functions
 export const getLatestPrices = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 75,
+    timeoutSeconds: 60,
     memory: '2GB',
   })
-  .pubsub.schedule('every 75 seconds')
+  .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
     return doGetLatestPrices(context);
   });
