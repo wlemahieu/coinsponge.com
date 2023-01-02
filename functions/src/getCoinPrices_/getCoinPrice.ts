@@ -11,15 +11,11 @@ const interval = '1m';
 const limit = '1000';
 
 const getCoinPrice = async (db: any, symbol: string) => {
-  console.log(`getCoinPrice()`);
-  console.log('symbol', symbol);
-
   // get the last time the crawler ran for this symbol
   try {
     const resp = (await getDoc(doc(db, `crawler`, symbol))) as any;
     const meta = resp.data();
     if (meta?.lastStartTime) {
-      console.log('lastStartTime', meta?.lastStartTime);
       endTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
     }
   } catch (e) {
@@ -53,9 +49,7 @@ const getCoinPrice = async (db: any, symbol: string) => {
           { merge: true },
         );
       });
-      console.log('promises ', promises.length);
       await Promise.all(promises);
-      console.log('promised!');
     }
   } catch (e) {
     console.log(e);
@@ -73,6 +67,7 @@ const getCoinPrice = async (db: any, symbol: string) => {
   } catch (e) {
     console.log(e);
   }
+  return Promise.resolve();
 };
 
 export default getCoinPrice;

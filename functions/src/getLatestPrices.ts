@@ -49,13 +49,10 @@ const firebaseConfig = {
 let isEmulator = false;
 
 const getLatestPrices = async (context: ContextT) => {
+  void context;
   const pair = 'BTCUSD';
   // const collectionName = `${pair}-${DateTime.now().year}`;
   const collectionName = `${pair}-${2021}`;
-
-  void context;
-  console.log(`----- getLatestPrices(${collectionName}) START -----`);
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
@@ -100,7 +97,6 @@ const getLatestPrices = async (context: ContextT) => {
   } catch (e) {
     console.log(e);
   }
-  console.log(`----- getLatestPrices(${collectionName}) END -----`);
 };
 
 export default getLatestPrices;

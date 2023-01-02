@@ -22,7 +22,6 @@ void wanted;
 
 // grab all crawler documents to see when they were crawled last and if they are realtively caught up
 const getCoinPrices = async (context: ContextT) => {
-  console.log('getCoinPrices');
   void context;
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -35,17 +34,16 @@ const getCoinPrices = async (context: ContextT) => {
   }
 
   const crawlerDocs = await getCrawlerDocs(db);
-  console.log('Finding itemsNeedingCrawl...');
+
   const itemsNeedingCrawl = crawlerDocs
     .filter((row: CrawlerMetaI) => {
       const latestItemTime = DateTime.fromMillis(parseInt(row.lastItemTime, 10));
       return DateTime.now() > latestItemTime;
     })
     .map((row: CrawlerMetaI) => row.pair);
-  console.log('itemsNeedingCrawl', itemsNeedingCrawl);
+
   if (itemsNeedingCrawl.length) {
-    const coinPrice = await getCoinPrice(db, itemsNeedingCrawl[0]);
-    console.log('coinPrice', coinPrice);
+    await getCoinPrice(db, itemsNeedingCrawl[0]);
   }
   return Promise.resolve();
 };
