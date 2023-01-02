@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import doSendEmail from './sendEmail';
-import doGetCoinPrice from './getCoinPrice';
+import doGetCoinPrices from './getCoinPrices';
 import doGetLatestPrices from './getLatestPrices';
 
 export const sendEmail = functions
@@ -16,24 +16,24 @@ export const sendEmail = functions
     return doSendEmail(data.text);
   });
 
-export const getCoinPrice = functions
+export const getCoinPrices = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 120,
-    memory: '512MB',
+    timeoutSeconds: 60,
+    memory: '2GB',
   })
-  .pubsub.schedule('every 2 minutes')
+  .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
-    return doGetCoinPrice(context);
+    return doGetCoinPrices(context);
   });
 
 export const getLatestPrices = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 180,
+    timeoutSeconds: 120,
     memory: '2GB',
   })
-  .pubsub.schedule('every 3 minutes')
+  .pubsub.schedule('every 2 minutes')
   .onRun((context) => {
     return doGetLatestPrices(context);
   });

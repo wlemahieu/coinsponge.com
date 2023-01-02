@@ -1,6 +1,5 @@
 import { EventContext } from 'firebase-functions/v1';
 import { DateTime } from 'luxon';
-// import { doc, setDoc } from 'firebase/firestore';
 import { initializeApp } from '@firebase/app';
 import { getFirestore, connectFirestoreEmulator } from '@firebase/firestore';
 import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
@@ -51,8 +50,11 @@ let isEmulator = false;
 
 const getLatestPrices = async (context: ContextT) => {
   const pair = 'BTCUSD';
+  // const collectionName = `${pair}-${DateTime.now().year}`;
+  const collectionName = `${pair}-${2019}`;
+
   void context;
-  console.log(`----- getLatestPrices(${pair}) START ${DateTime.now()} -----`);
+  console.log(`----- getLatestPrices(${collectionName}) START -----`);
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -67,7 +69,7 @@ const getLatestPrices = async (context: ContextT) => {
    * Update crawler meta with last crawled time.
    */
   try {
-    const querySnapshot = (await getDocs(collection(db, pair))) as any;
+    const querySnapshot = (await getDocs(collection(db, collectionName))) as any;
     const items: [number, number][] = [];
 
     querySnapshot.forEach((doc: any) => {
@@ -88,10 +90,17 @@ const getLatestPrices = async (context: ContextT) => {
       },
       { merge: true },
     );
+    await setDoc(
+      doc(db, `crawler`, pair),
+      {
+        lastItemTime: lastItem[0],
+      },
+      { merge: true },
+    );
   } catch (e) {
     console.log(e);
   }
-  console.log(`----- getLatestPrices(${pair}) END ${DateTime.now()} -----`);
+  console.log(`----- getLatestPrices(${collectionName}) END -----`);
 };
 
 export default getLatestPrices;
