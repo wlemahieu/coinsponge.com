@@ -16,15 +16,43 @@ export const sendEmail = functions
     return doSendEmail(data.text);
   });
 
+/**
+ * At current scale, this takes ~51s.
+ */
 export const getCoinPrices = functions
   .region('us-west1')
   .runWith({
-    timeoutSeconds: 60,
-    memory: '2GB',
+    timeoutSeconds: 120,
+    memory: '1GB',
   })
   .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
-    return doGetCoinPrices(context);
+    return doGetCoinPrices(context, 'BTCUSD');
+  });
+
+// temp for backfills
+export const getCoinPrices2 = functions
+  .region('us-west1')
+  .runWith({
+    timeoutSeconds: 120,
+    memory: '1GB',
+  })
+  .pubsub.schedule('every 1 minutes')
+  .onRun((context) => {
+    return doGetCoinPrices(context, 'ETHUSD');
+  });
+
+// temp for backfills
+
+export const getCoinPrices3 = functions
+  .region('us-west1')
+  .runWith({
+    timeoutSeconds: 120,
+    memory: '1GB',
+  })
+  .pubsub.schedule('every 1 minutes')
+  .onRun((context) => {
+    return doGetCoinPrices(context, 'NANOUSD');
   });
 
 export const getLatestPrices = functions

@@ -52,6 +52,18 @@ const Home: FC = () => {
       pair: 'BTCUSD',
       icon: <CurrencyBitcoinIcon />,
     },
+    {
+      name: 'Ethereum',
+      symbol: 'ETH',
+      pair: 'ETHUSD',
+      icon: (
+        <Box sx={{ width: '25px', height: '25px', p: 0, m: 0, textAlign: 'center', pl: 0.2 }}>
+          <Box component="span" sx={{ fontWeight: 500, fontSize: '19px' }}>
+            E
+          </Box>
+        </Box>
+      ),
+    },
   ];
 
   const preparedData = rows.map((row) => {

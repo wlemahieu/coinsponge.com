@@ -1,8 +1,8 @@
 import { initializeApp } from '@firebase/app';
 import { getFirestore, connectFirestoreEmulator } from '@firebase/firestore';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
 import { ContextT } from './types';
-import getCrawlerDocs, { CrawlerMetaI } from './getCoinPrices_/getCrawlerDocs';
+// import getCrawlerDocs, { CrawlerMetaI } from './getCoinPrices_/getCrawlerDocs';
 import getCoinPrice from './getCoinPrices_/getCoinPrice';
 
 const firebaseConfig = {
@@ -17,11 +17,8 @@ const firebaseConfig = {
 
 let isEmulator = false;
 
-const wanted = ['NANOUSD', 'BTCUSD'];
-void wanted;
-
 // grab all crawler documents to see when they were crawled last and if they are realtively caught up
-const getCoinPrices = async (context: ContextT) => {
+const getCoinPrices = async (context: ContextT, symbol: string) => {
   void context;
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -33,18 +30,37 @@ const getCoinPrices = async (context: ContextT) => {
     isEmulator = true;
   }
 
+  if (symbol === 'ETHUSD') {
+    await new Promise((r) => setTimeout(r, 20000));
+  } else if (symbol === 'NANOUSD') {
+    await new Promise((r) => setTimeout(r, 40000));
+  }
+
+  /*
   const crawlerDocs = await getCrawlerDocs(db);
 
+  // look at existing items that need more crawling
   const itemsNeedingCrawl = crawlerDocs
     .filter((row: CrawlerMetaI) => {
       const latestItemTime = DateTime.fromMillis(parseInt(row.lastItemTime, 10));
-      return DateTime.now() > latestItemTime;
+      return (!row?.lastItemTime || DateTime.now() > latestItemTime) && !row.isRunning;
     })
     .map((row: CrawlerMetaI) => row.pair);
 
   if (itemsNeedingCrawl.length) {
-    await getCoinPrice(db, itemsNeedingCrawl[0]);
+    const symbol = itemsNeedingCrawl[0];
+    console.log('symbol', symbol);
+    if (crawler === 1) {
+      await new Promise((r) => setTimeout(r, 20000));
+    } else if (crawler === 2) {
+      await new Promise((r) => setTimeout(r, 40000));
+    }
+    await getCoinPrice(db, symbol);
   }
+  */
+
+  await getCoinPrice(db, symbol);
+
   return Promise.resolve();
 };
 

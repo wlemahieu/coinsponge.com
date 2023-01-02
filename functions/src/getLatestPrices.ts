@@ -2,7 +2,8 @@ import { EventContext } from 'firebase-functions/v1';
 // import { DateTime } from 'luxon';
 import { initializeApp } from '@firebase/app';
 import { getFirestore, connectFirestoreEmulator } from '@firebase/firestore';
-import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
+import getLatestSnapshots from './getLatestPrices_/getLatestSnapshot';
 
 type StartTimestamp = number;
 type OpenPrice = number;
@@ -50,9 +51,6 @@ let isEmulator = false;
 
 const getLatestPrices = async (context: ContextT) => {
   void context;
-  const pair = 'BTCUSD';
-  // const collectionName = `${pair}-${DateTime.now().year}`;
-  const collectionName = `${pair}-${2021}`;
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
@@ -66,36 +64,43 @@ const getLatestPrices = async (context: ContextT) => {
    * Update crawler meta with last crawled time.
    */
   try {
-    const querySnapshot = (await getDocs(collection(db, collectionName))) as any;
-    const items: [number, number][] = [];
+    const querySnapshots = await getLatestSnapshots(db);
 
-    querySnapshot.forEach((doc: any) => {
-      const data = doc.data();
-      const keys = Object.keys(data);
-      const values = Object.values(data);
-      const dayMS = keys[keys.length - 1] as any;
-      const lastValue = values[values.length - 1] as any;
-      const closePrice = lastValue[3];
-      items.push([dayMS, closePrice]); // close price for now
+    const promises = querySnapshots.map(([pair, querySnapshot]) => {
+      const items: [number, number][] = [];
+      querySnapshot.forEach((doc: any) => {
+        const data = doc.data();
+        const keys = Object.keys(data);
+        const values = Object.values(data);
+        const dayMS = keys[keys.length - 1] as any;
+        const lastValue = values[values.length - 1] as any;
+        const closePrice = lastValue[3];
+        items.push([dayMS, closePrice]); // close price for now
+      });
+      const lastItem = items[items.length - 1];
+
+      return async () => {
+        await setDoc(
+          doc(db, `prices`, `latest`),
+          {
+            [pair]: lastItem,
+          },
+          { merge: true },
+        );
+        await setDoc(
+          doc(db, `crawler`, pair),
+          {
+            lastItemTime: lastItem[0],
+          },
+          { merge: true },
+        );
+      };
     });
-    const lastItem = items[items.length - 1];
 
-    await setDoc(
-      doc(db, `prices`, `latest`),
-      {
-        [pair]: lastItem,
-      },
-      { merge: true },
-    );
-    await setDoc(
-      doc(db, `crawler`, pair),
-      {
-        lastItemTime: lastItem[0],
-      },
-      { merge: true },
-    );
+    return Promise.all(promises);
   } catch (e) {
     console.log(e);
+    return Promise.reject(e);
   }
 };
 

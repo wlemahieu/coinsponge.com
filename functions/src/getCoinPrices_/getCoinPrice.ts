@@ -4,17 +4,19 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { ItemT } from '../types';
 
 const baseURL = 'https://www.binance.us/api/v3/klines';
-
-const absoluteStartTime = 1568678400000; // September 17th, 2019 (start of btcusd on binance)
-let endTime = absoluteStartTime;
 const interval = '1m';
 const limit = '1000';
 
 const getCoinPrice = async (db: any, symbol: string) => {
+  console.log('getCoinPrice', symbol);
+  let isRunning = false;
+  let endTime;
+
   // get the last time the crawler ran for this symbol
   try {
     const resp = (await getDoc(doc(db, `crawler`, symbol))) as any;
     const meta = resp.data();
+    isRunning = Boolean(meta?.isRunning);
     if (meta?.lastStartTime) {
       endTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
     }
@@ -22,9 +24,29 @@ const getCoinPrice = async (db: any, symbol: string) => {
     console.log(e);
   }
 
+  if (isRunning) {
+    return Promise.reject('Instance already running!');
+  }
+
+  // set crawler to running state
+  try {
+    await setDoc(
+      doc(db, `crawler`, symbol),
+      {
+        isRunning: true,
+      },
+      { merge: true },
+    );
+  } catch (e) {
+    console.log(e);
+  }
+
+  if (!endTime) {
+    return Promise.reject(`No endTime defined for ${symbol}!`);
+  }
+
   // create the crawl url
   const url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${endTime}&limit=${limit}`;
-  console.log(url);
 
   // retrieve data
   try {
@@ -55,18 +77,20 @@ const getCoinPrice = async (db: any, symbol: string) => {
     console.log(e);
   }
 
-  // update lastStartTime for symbol
+  // update lastStartTime for symbol and set not running
   try {
     await setDoc(
       doc(db, `crawler`, symbol),
       {
         lastStartTime: `${endTime}`,
+        isRunning: false,
       },
       { merge: true },
     );
   } catch (e) {
     console.log(e);
   }
+
   return Promise.resolve();
 };
 
