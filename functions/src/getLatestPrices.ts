@@ -78,28 +78,26 @@ const getLatestPrices = async (context: ContextT) => {
         items.push([dayMS, closePrice]); // close price for now
       });
       const lastItem = items[items.length - 1];
-
-      return async () => {
-        await setDoc(
+      return Promise.all([
+        setDoc(
           doc(db, `prices`, `latest`),
           {
             [pair]: lastItem,
           },
           { merge: true },
-        );
-        await setDoc(
+        ),
+        setDoc(
           doc(db, `crawler`, pair),
           {
             lastItemTime: lastItem[0],
           },
           { merge: true },
-        );
-      };
+        ),
+      ]);
     });
 
     return Promise.all(promises);
   } catch (e) {
-    console.log(e);
     return Promise.reject(e);
   }
 };

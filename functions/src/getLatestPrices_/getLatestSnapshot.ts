@@ -16,13 +16,12 @@ const getLatestSnapshot = async (db: any, pair: string, year: number): Promise<Q
     const collectionName = `${pair}-${year}`;
     querySnapshot = await getDocs(collection(db, collectionName));
     if (querySnapshot.empty) {
-      await getLatestSnapshot(db, pair, year - 1);
+      return getLatestSnapshot(db, pair, year - 1);
     }
+    return querySnapshot as QuerySnapshot;
   } catch (e) {
-    console.log(e);
+    return Promise.reject(e);
   }
-
-  return querySnapshot as QuerySnapshot;
 };
 
 const getLatestSnapshots = async (db: any): Promise<Array<[string, QuerySnapshot]>> => {
