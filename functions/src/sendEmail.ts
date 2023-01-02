@@ -16,10 +16,6 @@ export default async (text: string) => {
       subject: 'coinsponge.com Inquiry',
       html: text,
     })
-    .then((response) => {
-      console.log(response[0].statusCode);
-      console.log(response[0].headers);
-    })
     .catch((error) => {
       console.error(error);
       return Promise.reject(error);
