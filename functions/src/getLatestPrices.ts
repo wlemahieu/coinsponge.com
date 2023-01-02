@@ -51,7 +51,7 @@ let isEmulator = false;
 const getLatestPrices = async (context: ContextT) => {
   const pair = 'BTCUSD';
   // const collectionName = `${pair}-${DateTime.now().year}`;
-  const collectionName = `${pair}-${2020}`;
+  const collectionName = `${pair}-${2021}`;
 
   void context;
   console.log(`----- getLatestPrices(${collectionName}) START -----`);
