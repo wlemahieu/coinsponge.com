@@ -2,7 +2,6 @@
  * Home page view
  */
 import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
@@ -14,19 +13,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import useGetFirebaseUser from '@src/hooks/useGetFirebaseUser';
 import useGetFirestore from '@src/hooks/useGetFirestore';
-import { doc, getDoc, collection, query, where } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import numeral from 'numeral';
 import { DateTime } from 'luxon';
 
 const Home: FC = () => {
-  const navigate = useNavigate();
-  const user = useGetFirebaseUser();
   const db = useGetFirestore();
   const [data, setData] = useState<Record<string, string>>();
   const onClick = () => {
