@@ -23,7 +23,7 @@ export const getCoinPrices = functions
   .region('us-west1')
   .runWith({
     timeoutSeconds: 120,
-    memory: '1GB',
+    memory: '512MB',
   })
   .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
@@ -35,7 +35,7 @@ export const getCoinPrices2 = functions
   .region('us-west1')
   .runWith({
     timeoutSeconds: 120,
-    memory: '1GB',
+    memory: '512MB',
   })
   .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
@@ -48,7 +48,7 @@ export const getCoinPrices3 = functions
   .region('us-west1')
   .runWith({
     timeoutSeconds: 120,
-    memory: '1GB',
+    memory: '512MB',
   })
   .pubsub.schedule('every 1 minutes')
   .onRun((context) => {
