@@ -5,7 +5,11 @@ import doGetLatestPrices from './getLatestPrices';
 
 export const sendEmail = functions
   .region('us-west1')
-  .runWith({ enforceAppCheck: true, secrets: ['SENDGRID_API_KEY'] })
+  .runWith({
+    enforceAppCheck: true,
+    secrets: ['SENDGRID_API_KEY'],
+    memory: '128MB',
+  })
   .https.onCall(async (data, context) => {
     if (context.app == undefined) {
       throw new functions.https.HttpsError(
