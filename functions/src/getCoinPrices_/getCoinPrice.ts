@@ -5,12 +5,13 @@ import { ItemT } from '../types';
 
 const baseURL = 'https://www.binance.us/api/v3/klines';
 const interval = '1m';
-const limit = '1000';
+const limit = '750';
+// 1440 1min points per day. capture all with 2 crawls per day per symbol
 
 const getCoinPrice = async (db: any, symbol: string) => {
-  console.log('getCoinPrice', symbol);
+  let crawlSymbol = symbol;
   let isRunning = false;
-  let endTime;
+  let startTime;
 
   // get the last time the crawler ran for this symbol
   try {
@@ -18,7 +19,13 @@ const getCoinPrice = async (db: any, symbol: string) => {
     const meta = resp.data();
     isRunning = Boolean(meta?.isRunning);
     if (meta?.lastStartTime) {
-      endTime = parseInt(meta.lastStartTime) + 86400000; // add 1 day
+      startTime = parseInt(meta.lastStartTime, 10) + 86400000 / 2; // add 1/2 day
+    } else {
+      startTime = parseInt(meta.absoluteStartTime, 10);
+    }
+    // check for ticker changes (rare, but XNO had one)
+    if (meta?.tickerChange && startTime >= meta.tickerChange.startTime) {
+      crawlSymbol = meta.tickerChange.ticker;
     }
   } catch (e) {
     console.log(e);
@@ -41,12 +48,13 @@ const getCoinPrice = async (db: any, symbol: string) => {
     console.log(e);
   }
 
-  if (!endTime) {
-    return Promise.reject(`No endTime defined for ${symbol}!`);
+  if (!startTime) {
+    return Promise.reject(`No startTime defined for ${symbol}!`);
   }
 
   // create the crawl url
-  const url = `${baseURL}?symbol=${symbol}&interval=${interval}&endTime=${endTime}&limit=${limit}`;
+  const url = `${baseURL}?symbol=${crawlSymbol}&interval=${interval}&startTime=${startTime}&limit=${limit}`;
+  console.log(url);
 
   // retrieve data
   try {
@@ -82,7 +90,7 @@ const getCoinPrice = async (db: any, symbol: string) => {
     await setDoc(
       doc(db, `crawler`, symbol),
       {
-        lastStartTime: `${endTime}`,
+        lastStartTime: `${startTime}`,
         isRunning: false,
       },
       { merge: true },
