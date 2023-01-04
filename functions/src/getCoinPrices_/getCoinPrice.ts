@@ -24,8 +24,11 @@ const getCoinPrice = async (db: any, symbol: string) => {
       startTime = parseInt(meta.absoluteStartTime, 10);
     }
     // check for ticker changes (rare, but XNO had one)
-    if (meta?.tickerChange && startTime >= meta.tickerChange.startTime) {
-      crawlSymbol = meta.tickerChange.ticker;
+    if (meta?.tickerChange) {
+      const newStartTime = parseInt(meta.tickerChange.startTime, 10);
+      if (startTime >= newStartTime) {
+        crawlSymbol = meta.tickerChange.ticker;
+      }
     }
   } catch (e) {
     console.log(e);
