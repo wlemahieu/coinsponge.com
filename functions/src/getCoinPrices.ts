@@ -30,11 +30,13 @@ const getCoinPrices = async (context: ContextT, symbol: string) => {
     isEmulator = true;
   }
 
+  /*
   if (symbol === 'ETHUSD') {
     await new Promise((r) => setTimeout(r, 20000));
   } else if (symbol === 'NANOUSD') {
     await new Promise((r) => setTimeout(r, 40000));
   }
+  */
 
   /*
   const crawlerDocs = await getCrawlerDocs(db);
